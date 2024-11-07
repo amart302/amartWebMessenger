@@ -1,0 +1,24 @@
+-- create database webMessengerDB;
+-- drop database webMessengerDB;
+-- CREATE TABLE users (
+--     user_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--     username VARCHAR(50) NOT NULL UNIQUE,
+--     email VARCHAR(255) NOT NULL UNIQUE,
+--     password VARCHAR(255) NOT NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+-- );
+
+-- CREATE TABLE messages (
+--     message_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--     user_id BIGINT UNSIGNED NOT NULL,
+--     username VARCHAR(50) NOT NULL,
+--     content TEXT NOT NULL,
+--     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+-- );
+
+-- SET FOREIGN_KEY_CHECKS = 0;
+-- truncate table messages;
+-- SET FOREIGN_KEY_CHECKS = 1;
+-- select * from messages;

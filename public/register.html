@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EEF2F5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 70px 50px 70px 50px;
+            border-radius: 4px;
+            box-shadow: 0px 1px 3px 0px #0000001A;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .h1 {
+            font-family: "Inter", sans-serif;;
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 36.31px;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        .p {
+            font-family: IBM Plex Serif;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 23.4px;
+            text-align: left;
+
+            color: #727272;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: calc(100% - 80px);
+            height: 55px;
+            padding-left: 30px;
+            padding-right: 30px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 19.36px;
+            text-align: left;
+            font-weight: 600;
+
+            &:focus {
+                outline: #8AC0FF;
+                border-color: #8AC0FF;
+            }
+
+            &::placeholder{
+                font-weight: 500;
+            }
+        }
+
+        .btn {
+            width: 70%;
+            padding: 20px 10px;
+            border: none;
+            background-color: #0366FF;
+            color: white;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            font-family: IBM Plex Serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 20.8px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .links {
+            margin-left: auto;
+            margin-right: auto;
+            width: 75%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 35px;
+
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 19.36px;
+            text-align: left;
+        }
+
+        .links a {
+            color: #0366FF;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="h1">Create your digital life</div>
+        <div class="p">Choose one of the option to go</div>
+        <form id="register-form">
+            <div class="form-group">
+                <input type="text" class="form-control" id="register-username" required placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" id="register-email" required placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="register-password" required placeholder="Password">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="register-confirm-password" required placeholder="Confirm password">
+            </div>
+            <div class="links">
+                <a href="/login">Already have an account? Sign In</a>
+            </div>
+
+            <div style="width: 100%; display: flex; justify-content: center; align-items: center;"><button type="submit" class="btn">Sigh Up</button></div>
+        </form>
+        
+    </div>
+
+    <script>
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let username = document.getElementById('register-username').value;
+            let email = document.getElementById('register-email').value;
+            let password = document.getElementById('register-password').value;
+            let confirmPassword = document.getElementById('register-confirm-password').value;
+
+            if(password == confirmPassword){
+                axios.post('/api/registerData', {username: username, email: email, password: password})
+                    .then(res => {
+                        sessionStorage.setItem('user', JSON.stringify({ id: res.data.user.id, username: res.data.user.username, email: res.data.user.email}));
+                        window.location.href = res.data.redirectUrl;
+                    })
+                    .catch(error => {
+                        alert(`Ошибка регистрации: ${error.response.data.message}`);
+                    });
+            }
+            else{
+                alert('Введите пароль правильно');
+            }
+        });
+    </script>
+</body>
+</html>
